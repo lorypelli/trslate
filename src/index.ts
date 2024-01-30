@@ -1,4 +1,10 @@
-export class Translations<T> {
+/**
+ * Translation class that includes the function that is responsible for translations (order must be respected for the `t` function to work properly)
+ * @param { string[] } schema schema that defines the translations objects order
+ * @param { T } first the first translation object that is used to make at least one paramether required and also for types
+ * @param { object[] } others array of others objects for the translation
+ */
+export class Translation<T> {
     private schema: string[];
     private first: T;
     private others: object[];
@@ -7,6 +13,12 @@ export class Translations<T> {
         this.first = first;
         this.others = others;
     }
+    /**
+     * The `t` function is used to make the actual translation
+     * @param { string } l the language into which the translation will be made
+     * @param { SKey<T> } s valid strings key of the source object
+     * @param { string[] } a args to pass that will replace `{}` to make variables working
+     */
     t(l: string, s: SKey<T>, ...a: string[]) {
         for (let i = 0; i < this.schema.length; i++) {
             if (l == this.schema[0]) {
