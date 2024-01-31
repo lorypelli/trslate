@@ -50,53 +50,57 @@ export class Translation<T extends object> {
      * @returns the translated string
      */
     t(l: string, s: SKey<T>, ...a: string[]) {
-        if (l == this.schema[0]) {
-            if (this.first && typeof this.first == 'object') {
-                const arr = s.split('.');
-                const v = arr.reduce<string | object>((o, k) => {
-                    if (typeof o == 'object' && k in o) {
-                        return o[k as keyof typeof o];
+        if (!this.schema.includes(l)) {
+            return '';
+        } else {
+            if (l == this.schema[0]) {
+                if (this.first && typeof this.first == 'object') {
+                    const arr = s.split('.');
+                    const v = arr.reduce<string | object>((o, k) => {
+                        if (typeof o == 'object' && k in o) {
+                            return o[k as keyof typeof o];
+                        }
+                        return {};
+                    }, this.first);
+                    if (typeof v == 'string') {
+                        if (v.includes('{')) {
+                            let str = v;
+                            let c = 0;
+                            str = v.replace(/\{.*?\}/g, () => {
+                                const r = a[c];
+                                c++;
+                                return r;
+                            });
+                            return str;
+                        }
+                        return v;
                     }
-                    return {};
-                }, this.first);
-                if (typeof v == 'string') {
-                    if (v.includes('{')) {
-                        let str = v;
-                        let c = 0;
-                        str = v.replace(/\{.*?\}/g, () => {
-                            const r = a[c];
-                            c++;
-                            return r;
-                        });
-                        return str;
-                    }
-                    return v;
                 }
             }
-        }
-        for (let i = 0; i < this.schema.length; i++) {
-            if (l == this.schema[i]) {
-                for (let c = 0; c < this.others.length; c++) {
-                    if (c == i - 1) {
-                        const arr = s.split('.');
-                        const v = arr.reduce<string | object>((o, k) => {
-                            if (typeof o == 'object' && k in o) {
-                                return o[k as keyof typeof o];
+            for (let i = 0; i < this.schema.length; i++) {
+                if (l == this.schema[i]) {
+                    for (let c = 0; c < this.others.length; c++) {
+                        if (c == i - 1) {
+                            const arr = s.split('.');
+                            const v = arr.reduce<string | object>((o, k) => {
+                                if (typeof o == 'object' && k in o) {
+                                    return o[k as keyof typeof o];
+                                }
+                                return {};
+                            }, this.others[i - 1]);
+                            if (typeof v == 'string') {
+                                if (v.includes('{')) {
+                                    let str = v;
+                                    let c = 0;
+                                    str = v.replace(/\{.*?\}/g, () => {
+                                        const r = a[c];
+                                        c++;
+                                        return r;
+                                    });
+                                    return str;
+                                }
+                                return v;
                             }
-                            return {};
-                        }, this.others[i - 1]);
-                        if (typeof v == 'string') {
-                            if (v.includes('{')) {
-                                let str = v;
-                                let c = 0;
-                                str = v.replace(/\{.*?\}/g, () => {
-                                    const r = a[c];
-                                    c++;
-                                    return r;
-                                });
-                                return str;
-                            }
-                            return v;
                         }
                     }
                 }
