@@ -33,8 +33,8 @@ export class Translation<T> {
         }
         else {
             for (let i = 0; i < others.length; i++) {
-                if (typeof schema[i] != 'string') {
-                    throw new Error(`The element of the others array at index ${i} is not a valid string!`);
+                if (typeof others[i] != 'object') {
+                    throw new Error(`The element of the others array at index ${i} is not a valid object!`);
                 }
             }
         }
