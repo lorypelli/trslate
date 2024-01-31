@@ -4,7 +4,7 @@
  * @param first the first translation object that is used to make at least one paramether required and also for types
  * @param others array of others objects for the translation
  */
-export class Translation<T> {
+export class Translation<T extends object> {
     private schema: string[];
     private first: T;
     private others: object[];
