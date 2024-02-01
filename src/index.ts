@@ -1,13 +1,13 @@
-/**
- * Translation class that includes the function that is responsible for translations
- * @param schema schema that defines the translations objects order (it must be respected for the `t` function to work properly)
- * @param first the first translation object that is used to make at least one paramether required and also for types
- * @param others array of others objects for the translation
- */
 export class Translation<T extends string, K extends object> {
     private schema: T[];
     private first: K;
     private others: object[];
+    /**
+    * Translation class that includes the function that is responsible for translations
+    * @param { T[] } schema schema that defines the translations objects order (it must be respected for the `t` function to work properly)
+    * @param { K } first the first translation object that is used to make at least one paramether required and also for types
+    * @param { object[] } others array of others objects for the translation
+    */
     constructor(schema: T[], first: K, ...others: object[]) {
         this.schema = schema;
         this.first = first;
@@ -44,9 +44,9 @@ export class Translation<T extends string, K extends object> {
     }
     /**
      * The `t` function is used to make the actual translation
-     * @param l the language into which the translation will be made
-     * @param s valid strings key of the source object
-     * @param a args to pass that will replace `{}` to make variables working
+     * @param { T } l the language into which the translation will be made
+     * @param { SKey<K> } s valid strings key of the source object
+     * @param { string[] } a args to pass that will replace `{}` to make variables working
      * @returns the translated string
      */
     t(l: T, s: SKey<K>, ...a: string[]) {
@@ -106,6 +106,11 @@ export class Translation<T extends string, K extends object> {
             }
         }
     }
+    /**
+     * The `isValidLang` function is used to check if a language is valid
+     * @param { string } l the language to check
+     * @returns boolean value that rappresents if the language is valid or not
+     */
     isValidLang(l: string): l is T {
         return this.schema.includes(l as T);
     }
