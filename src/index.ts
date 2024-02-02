@@ -47,9 +47,9 @@ export class Translation<T extends string, K extends object> {
      * @param { T } l the language into which the translation will be made
      * @param { SKey<K> } s valid strings key of the source object
      * @param { string[] } a args to pass that will replace `{}` to make variables working
-     * @returns the translated string
+     * @returns { string | undefined } the translated string
      */
-    t(l: T, s: SKey<K>, ...a: string[]) {
+    t(l: T, s: SKey<K>, ...a: string[]): string | undefined {
         if (!this.schema.includes(l)) {
             return '';
         }
@@ -109,7 +109,7 @@ export class Translation<T extends string, K extends object> {
     /**
      * The `isValidLang` function is used to check if a language is valid
      * @param { string } l the language to check
-     * @returns boolean value that rappresents if the language is valid or not
+     * @returns { boolean } boolean value that rappresents if the language is valid or not
      */
     isValidLang(l: string): l is T {
         return this.schema.includes(l as T);
