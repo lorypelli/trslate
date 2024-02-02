@@ -37,10 +37,9 @@ used to check if a language is valid
 
 ```js
 const lang = ''
-const valid = translate.isValidLang(lang)
-if (valid) {
-    // do something...
+if (translate.isValidLang(lang)) {
+    // now typescript knows that lang can only be an element of the schema array
 }
 ```
 
-this function accept one paramether, the language and it checks if the translation in that language was provided, it returns a boolean but typescript doesn't understand that you provided a valid type so you will still need to cast it
+this function accept one paramether, the language and it checks if the translation in that language was provided, it returns a boolean
