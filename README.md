@@ -1,5 +1,6 @@
 # trslate
-this package exports a `Translation` class that is used to make translations
+This package exports a `Translation` class.<br>
+The `Translation` class exports two functions, one is used to translate and the other one is used to check if a language is valid.
 
 ## Example
 
@@ -26,7 +27,7 @@ const key = ''
 console.log(translate.t(lang, key))
 ```
 
-this function accept two paramethers, the first one is the language you want to translate into and the second one is the object key from which to take the string that will be translated
+this function accept two paramethers, the first one is the language you want to translate into and the second one is the object key from which to take the string that will be translated.
 
 ---
 
@@ -42,4 +43,4 @@ if (translate.isValidLang(lang)) {
 }
 ```
 
-this function accept one paramether, the language and it checks if the translation in that language was provided, it returns a boolean
+this function accept one paramether, the language and it checks if the translation in that language was provided, it returns a boolean.
