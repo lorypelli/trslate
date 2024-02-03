@@ -3,7 +3,7 @@ export class Translation<T extends string, K extends object> {
     private first: K;
     private others: object[];
     /**
-    * Translation class that includes the function that is responsible for translations
+    * The `Translation` class exports two functions, one is used to translate and the other one is used to check if a language is valid
     * @param { T[] } schema schema that defines the translations objects order (it must be respected for the `t` function to work properly)
     * @param { K } first the first translation object that is used to make at least one paramether required and also for types
     * @param { object[] } others array of others objects for the translation
@@ -46,10 +46,10 @@ export class Translation<T extends string, K extends object> {
      * The `t` function is used to make the actual translation
      * @param { T } l the language into which the translation will be made
      * @param { SKey<K> } s valid strings key of the source object
-     * @param { string[] } a args to pass that will replace `{}` to make variables working
+     * @param { (string | number | boolean)[] } a args to pass that will replace `{}` to make variables working
      * @returns { string | undefined } the translated string
      */
-    t(l: T, s: SKey<K>, ...a: string[]): string | undefined {
+    t(l: T, s: SKey<K>, ...a: (string | number | boolean)[]): string | undefined {
         if (!this.schema.includes(l)) {
             return '';
         }
@@ -69,7 +69,10 @@ export class Translation<T extends string, K extends object> {
                         str = v.replace(/\{.*?\}/g, () => {
                             const r = a[c];
                             c++;
-                            return r;
+                            if (r) {
+                                return r.toString();
+                            }
+                            return '';
                         });
                         return str;
                     }
@@ -95,7 +98,10 @@ export class Translation<T extends string, K extends object> {
                                 str = v.replace(/\{.*?\}/g, () => {
                                     const r = a[c];
                                     c++;
-                                    return r;
+                                    if (r) {
+                                        return r.toString();
+                                    }
+                                    return '';
                                 });
                                 return str;
                             }
