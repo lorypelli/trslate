@@ -49,7 +49,7 @@ export class Translation<T extends string, K extends object> {
      * @param { (string | number | boolean)[] } a args to pass that will replace `{}` to make variables working
      * @returns { string | undefined } the translated string
      */
-    t(l: T, s: SKey<K>, ...a: (string | number | boolean)[]): string | undefined {
+    t(l: T, s: SKey<K>, ...a: (string | number | boolean | null)[]): string | undefined {
         if (typeof l != 'string') {
             throw new Error('The language is not a valid string!');
         }
@@ -73,7 +73,16 @@ export class Translation<T extends string, K extends object> {
                         let str = v;
                         let c = 0;
                         str = v.replace(/\{.*?\}/g, () => {
-                            const r = a[c];
+                            let r = a[c];
+                            while (r == null) {
+                                if (a.length - 1 < c) {
+                                    r = '';
+                                }
+                                else {
+                                    r = a[c + 1];
+                                    c++;
+                                }
+                            }
                             c++;
                             if (r) {
                                 return r.toString();
