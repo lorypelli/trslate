@@ -9,9 +9,6 @@ export class Translation<T extends string, K extends object> {
     * @param { object[] } others array of others objects for the translation
     */
     constructor(schema: T[], first: K, ...others: object[]) {
-        this.schema = schema;
-        this.first = first;
-        this.others = others;
         if (!Array.isArray(schema)) {
             throw new Error('Schema is not an array!');
         }
@@ -41,6 +38,9 @@ export class Translation<T extends string, K extends object> {
         if (schema.length != others.length + 1) {
             throw new Error(`You passed ${schema.length} languages but you provided ${others.length + 1} objects!`);
         }
+        this.schema = schema;
+        this.first = first;
+        this.others = others;
     }
     /**
      * The `t` function is used to make the actual translation
