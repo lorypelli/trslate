@@ -50,8 +50,14 @@ export class Translation<T extends string, K extends object> {
      * @returns { string | undefined } the translated string
      */
     t(l: T, s: SKey<K>, ...a: (string | number | boolean)[]): string | undefined {
+        if (typeof l != 'string') {
+            throw new Error('The language is not a valid string!');
+        }
         if (!this.schema.includes(l)) {
-            return '';
+            throw new Error('No translation found for the given language!');
+        }
+        if (typeof s != 'string') {
+            throw new Error('The key is not a valid string!');
         }
         if (l == this.schema[0]) {
             if (this.first && typeof this.first == 'object') {
@@ -118,6 +124,9 @@ export class Translation<T extends string, K extends object> {
      * @returns { boolean } boolean value that rappresents if the language is valid or not
      */
     isValidLang(l: string): l is T {
+        if (typeof l != 'string') {
+            throw new Error('The language is not a valid string!');
+        }
         return this.schema.includes(l as T);
     }
 }
