@@ -111,7 +111,16 @@ export class Translation<T extends string, K extends object> {
                                 let str = v;
                                 let c = 0;
                                 str = v.replace(/\{.*?\}/g, () => {
-                                    const r = a[c];
+                                    let r = a[c];
+                                    while (r == null) {
+                                        if (a.length - 1 < c) {
+                                            r = '';
+                                        }
+                                        else {
+                                            r = a[c + 1];
+                                            c++;
+                                        }
+                                    }
                                     c++;
                                     if (r) {
                                         return r.toString();
