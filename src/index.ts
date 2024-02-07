@@ -1,14 +1,15 @@
-export class Translation<T extends string, K extends object> {
-    private schema: T[];
+import { Call, Numbers } from 'hotscript';
+export class Translation<const T extends string[], const K extends object> {
+    private schema: T;
     private first: K;
-    private others: object[];
+    private others: object[] & { length: Call<Numbers.Sub<T['length'], 1>> };
     /**
     * The `Translation` class exports two functions, one is used to translate and the other one is used to check if a language is valid
-    * @param { T[] } schema schema that defines the translations objects order (it must be respected for the `t` function to work properly)
+    * @param { T } schema schema that defines the translations objects order (it must be respected for the `t` function to work properly)
     * @param { K } first the first translation object that is used to make at least one paramether required and also for types
-    * @param { object[] } others array of others objects for the translation
+    * @param { object[] & { length: Call<Numbers.Sub<T['length'], 1>> } others array of others objects for the translation
     */
-    constructor(schema: T[], first: K, ...others: object[]) {
+    constructor(schema: T, first: K, ...others: object[] & { length: Call<Numbers.Sub<T['length'], 1>> }) {
         if (!Array.isArray(schema)) {
             throw new Error('Schema is not an array!');
         }
@@ -44,12 +45,12 @@ export class Translation<T extends string, K extends object> {
     }
     /**
      * The `t` function is used to make the actual translation
-     * @param { T } l the language into which the translation will be made
+     * @param { T[number] } l the language into which the translation will be made
      * @param { SKey<K> } s valid strings key of the source object
      * @param { (string | number | boolean)[] } a args to pass that will replace `{}` to make variables working
      * @returns { string | undefined } the translated string
      */
-    t(l: T, s: SKey<K>, ...a: (string | number | boolean | null)[]): string | undefined {
+    t(l: T[number], s: SKey<K>, ...a: (string | number | boolean | null)[]): string | undefined {
         if (typeof l != 'string') {
             throw new Error('The language is not a valid string!');
         }
@@ -141,11 +142,11 @@ export class Translation<T extends string, K extends object> {
      * @param { string } l the language to check
      * @returns { boolean } boolean value that rappresents if the language is valid or not
      */
-    isValidLang(l: string): l is T {
+    isValidLang(l: string): l is T[number] {
         if (typeof l != 'string') {
             throw new Error('The language is not a valid string!');
         }
-        return this.schema.includes(l as T);
+        return this.schema.includes(l as T[number]);
     }
 }
 type SKey<T> = { [K in Extract<keyof T, string>]: T[K] extends string ? K : T[K] extends object ? `${K}.${SKey<T[K]>}` : never }[Extract<keyof T, string>]

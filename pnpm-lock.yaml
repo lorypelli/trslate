@@ -14,6 +14,9 @@ devDependencies:
   eslint:
     specifier: ^8.56.0
     version: 8.56.0
+  hotscript:
+    specifier: ^1.0.13
+    version: 1.0.13
   typescript:
     specifier: ^5.3.3
     version: 5.3.3
@@ -599,6 +602,10 @@ packages:
   /has-flag@4.0.0:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
     engines: {node: '>=8'}
+    dev: true
+
+  /hotscript@1.0.13:
+    resolution: {integrity: sha512-C++tTF1GqkGYecL+2S1wJTfoH6APGAsbb7PAWQ3iVIwgG/EFseAfEVOKFgAFq4yK3+6j1EjUD4UQ9dRJHX/sSQ==}
     dev: true
 
   /ignore@5.3.0:
