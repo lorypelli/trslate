@@ -13,12 +13,13 @@ export class Translation<const T extends string[], const K extends object> {
         if (!Array.isArray(schema)) {
             throw new Error('Schema is not an array!');
         }
-        else {
-            for (let i = 0; i < schema.length; i++) {
-                if (typeof schema[i] != 'string') {
-                    throw new Error(`The element of the schema array at index ${i} is not a valid string!`);
-                }
+        for (let i = 0; i < schema.length; i++) {
+            if (typeof schema[i] != 'string') {
+                throw new Error(`The element of the schema array at index ${i} is not a valid string!`);
             }
+        }
+        if (new Set(schema).size != schema.length) {
+            throw new Error('There are duplicated elements in the array!');
         }
         if (!first) {
             throw new Error('First object is required!');
@@ -29,11 +30,9 @@ export class Translation<const T extends string[], const K extends object> {
         if (!Array.isArray(others)) {
             throw new Error('Others is not an array!');
         }
-        else {
-            for (let i = 0; i < others.length; i++) {
-                if (typeof others[i] != 'object') {
-                    throw new Error(`The element of the others array at index ${i} is not a valid object!`);
-                }
+        for (let i = 0; i < others.length; i++) {
+            if (typeof others[i] != 'object') {
+                throw new Error(`The element of the others array at index ${i} is not a valid object!`);
             }
         }
         if (schema.length != others.length + 1) {
@@ -149,4 +148,4 @@ export class Translation<const T extends string[], const K extends object> {
         return this.schema.includes(l as T[number]);
     }
 }
-type SKey<T> = { [K in Extract<keyof T, string>]: T[K] extends string ? K : T[K] extends object ? `${K}.${SKey<T[K]>}` : never }[Extract<keyof T, string>]
+type SKey<T> = { [K in Extract<keyof T, string>]: T[K] extends string ? K : T[K] extends object ? `${K}.${SKey<T[K]>}` : never }[Extract<keyof T, string>];
