@@ -46,7 +46,7 @@ export class Translation<const T extends string[], const K extends object> {
      * The `t` function is used to make the actual translation
      * @param { T[number] } l the language into which the translation will be made
      * @param { SKey<K> } s valid strings key of the source object
-     * @param { (string | number | boolean)[] } a args to pass that will replace `{}` to make variables working
+     * @param { (string | number | boolean | null)[] } a args to pass that will replace `{}` to make variables working
      * @returns { string | undefined } the translated string
      */
     t(l: T[number], s: SKey<K>, ...a: (string | number | boolean | null)[]): string | undefined {
