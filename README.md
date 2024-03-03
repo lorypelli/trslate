@@ -44,3 +44,19 @@ if (translate.isValidLang(lang)) {
 ```
 
 this function accept one paramether, the language and it checks if the translation in that language was provided, it returns a boolean.
+
+---
+
+`useLang` function:<br>
+a shortcut that returns a function to not specify the language every time
+
+## Example
+
+```js
+const lang = ''
+const t = translate.useLang(lang)
+const key = ''
+console.log(t(key))
+```
+
+this function accept one paramether, the language you want to translate into, and it returns a function that allows you to not specify the language everytime but only the key.

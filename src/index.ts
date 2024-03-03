@@ -46,10 +46,10 @@ export class Translation<const T extends string[], const K extends object> {
      * The `t` function is used to make the actual translation
      * @param { T[number] } l the language into which the translation will be made
      * @param { SKey<K> } s valid strings key of the source object
-     * @param { (string | number | boolean | null)[] } a args to pass that will replace `{}` to make variables working
-     * @returns { string | undefined } the translated string
+     * @param { Valid[] } a args to pass that will replace `{}` to make variables working
+     * @returns { string } the translated string
      */
-    t(l: T[number], s: SKey<K>, ...a: (string | number | boolean | null)[]): string | undefined {
+    t(l: T[number], s: SKey<K>, ...a: Valid[]): string {
         if (typeof l != 'string') {
             throw new Error('The language is not a valid string!');
         }
@@ -135,6 +135,7 @@ export class Translation<const T extends string[], const K extends object> {
                 }
             }
         }
+        return ''
     }
     /**
      * The `isValidLang` function is used to check if a language is valid
@@ -147,5 +148,16 @@ export class Translation<const T extends string[], const K extends object> {
         }
         return this.schema.includes(l as T[number]);
     }
+    /**
+     * The `useLang` function is a shortcut that returns a function to not specify the language every time
+     * @param { T[number] } l the language into which the translation will be made
+     * @returns { string } the translated string
+     */
+    useLang(l: T[number]): (s: SKey<K>, ...a: Valid[]) => string {
+        return (s, ...a) => {
+            return this.t(l, s, ...a);
+        };
+    }
 }
 type SKey<T> = { [K in Extract<keyof T, string>]: T[K] extends string ? K : T[K] extends object ? `${K}.${SKey<T[K]>}` : never }[Extract<keyof T, string>];
+type Valid = string | number | boolean | null;
