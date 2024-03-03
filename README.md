@@ -1,15 +1,15 @@
 # trslate
-This package exports a `Translation` class.<br>
-The `Translation` class exports two functions, one is used to translate and the other one is used to check if a language is valid.
+This package exports a `TContext` class.<br>
+The `TContext` class exports three functions, the first one is used to translate, the second one is used to check if a language is valid and the third one is a shortcut to not specify the lang in the first one.
 
 ## Example
 
 ```js
-import { Translation } from 'trslate'
+import { TContext } from 'trslate'
 const schema = []
 const first = {}
 const others = {}
-const translate = new Translation(schema, first, others, ...)
+const translate = new TContext(schema, first, others, ...)
 ```
 
 this is a code to demostrate how it works, the class accept a minimum of two paramethers, the first one is a schema which indicates the order of objects, the other one is the first object which is used to have at least one object required and for types, you can pass how many params you want because the others paramethers will be interpreted as `others`. Obviously if you pass a new param, you will need to add a new `string` element in the `schema` paramether.

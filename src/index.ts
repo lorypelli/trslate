@@ -1,10 +1,10 @@
 import { Call, Numbers } from 'hotscript';
-export class Translation<const T extends string[], const K extends object> {
+export class TContext<const T extends string[], const K extends object> {
     private schema: T;
     private first: K;
     private others: object[] & { length: Call<Numbers.Sub<T['length'], 1>> };
     /**
-    * The `Translation` class exports two functions, one is used to translate and the other one is used to check if a language is valid
+    * The `TContext` class exports three functions, the first one is used to translate, the second one is used to check if a language is valid and the third one is a shortcut to not specify the lang in the first one
     * @param { T } schema schema that defines the translations objects order (it must be respected for the `t` function to work properly)
     * @param { K } first the first translation object that is used to make at least one paramether required and also for types
     * @param { object[] & { length: Call<Numbers.Sub<T['length'], 1>> } others array of others objects for the translation
