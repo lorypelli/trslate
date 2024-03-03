@@ -135,7 +135,7 @@ export class Translation<const T extends string[], const K extends object> {
                 }
             }
         }
-        return ''
+        return '';
     }
     /**
      * The `isValidLang` function is used to check if a language is valid
@@ -151,10 +151,16 @@ export class Translation<const T extends string[], const K extends object> {
     /**
      * The `useLang` function is a shortcut that returns a function to not specify the language every time
      * @param { T[number] } l the language into which the translation will be made
-     * @returns { string } the translated string
+     * @returns { (s: SKey<K>, ...a: Valid[]) => string } a function that can be used to translate
      */
     useLang(l: T[number]): (s: SKey<K>, ...a: Valid[]) => string {
-        return (s, ...a) => {
+    /**
+     * This function, returned by `useLang` is used to make the actual translation
+     * @param { SKey<K> } s valid strings key of the source object
+     * @param { Valid[] } a args to pass that will replace `{}` to make variables working
+     * @returns { string } the translated string
+     */
+        return (s: SKey<K>, ...a: Valid[]): string => {
             return this.t(l, s, ...a);
         };
     }
