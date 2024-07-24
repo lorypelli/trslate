@@ -6,14 +6,12 @@ The `TContext` class exports three functions, the first one is used to translate
 ## Example
 
 ```js
-import { TContext } from 'trslate'
-const schema = []
-const first = {}
-const others = {}
-const translate = new TContext(schema, first, others, ...)
+import { TContext } from 'trslate';
+const schema = [];
+const translate = new TContext(schema, ...);
 ```
 
-this is a code to demostrate how it works, the class accept a minimum of two paramethers, the first one is a schema which indicates the order of objects, the other one is the first object which is used to have at least one object required and for types, you can pass how many params you want because the others paramethers will be interpreted as `others`. Obviously if you pass a new param, you will need to add a new `string` element in the `schema` paramether.
+this is a code to demostrate how it works, the class accept a minimum of one param, every other param you pass is the corresponding translation object for every language in the `schema`. Obviously if you pass a new param, you will need to add a new `string` element in the array.
 
 ---
 
