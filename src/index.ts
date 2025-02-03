@@ -28,19 +28,15 @@ export class TContext<const T extends string[], const K extends object[]> {
         }
         for (let i = 0; i < this.schema.length; i++) {
             if (l == this.schema[i]) {
-                for (let c = 0; c < this.others.length; c++) {
-                    if (c == i) {
-                        const arr = s.split('.');
-                        const v = arr.reduce<string | object>((o, k) => {
-                            if (typeof o == 'object' && k in o) {
-                                return o[k as keyof typeof o];
-                            }
-                            return {};
-                        }, this.others[i]);
-                        if (typeof v == 'string') {
-                            return getVariables(v, ...a);
-                        }
+                const arr = s.split('.');
+                const v = arr.reduce<string | object>((o, k) => {
+                    if (typeof o == 'object' && k in o) {
+                        return o[k as keyof typeof o];
                     }
+                    return {};
+                }, this.others[i]);
+                if (typeof v == 'string') {
+                    return getVariables(v, ...a);
                 }
             }
         }

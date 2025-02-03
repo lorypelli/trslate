@@ -1,7 +1,7 @@
 import { Valid } from '../types/index';
 
 export function getVariables(v: string, ...a: Valid[]) {
-    if (v.includes('{')) {
+    if (a.length > 0 && v.includes('{{') && v.includes('}}')) {
         let str = v;
         let c = 0;
         str = v.replace(/{{.*?}}/g, () => {
