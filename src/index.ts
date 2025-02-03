@@ -1,4 +1,4 @@
-import { Union, Valid } from './types';
+import { Union, Valid } from './types/index';
 import { check } from './utils/check';
 import { getVariables } from './utils/getVariables';
 
@@ -56,8 +56,6 @@ export class TContext<const T extends string[], const K extends object[]> {
      * The `useLang` function is a shortcut that returns a function to not specify the language every time
      */
     useLang(l: T[number]): (s: Union<K[number]>, ...a: Valid[]) => string {
-        return (s, ...a) => {
-            return this.t(l, s, ...a);
-        };
+        return (s, ...a) => this.t(l, s, ...a);
     }
 }
