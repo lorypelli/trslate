@@ -1,0 +1,7 @@
+{
+    "compilerOptions": {
+        "strict": true
+    },
+    "include": ["src", "types", "utils"],
+    "exclude": ["node_modules"]
+}
