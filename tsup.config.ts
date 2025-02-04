@@ -1,21 +1,30 @@
-import { readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { defineConfig } from 'tsup';
+
+const defaults = defineConfig({
+    target: 'es2015',
+    minify: true,
+    clean: true,
+})
 
 export default defineConfig([
     {
+        ...defaults,
         entry: ['src/index.ts'],
-        target: 'es2015',
-        format: ['esm', 'iife'],
-        globalName: '_',
-        minify: true,
+        format: 'esm',
         dts: true,
-        clean: true,
+    },
+    {
+        ...defaults,
+        entry: { browser: 'src/index.ts' },
+        format: 'iife',
+        globalName: '_',
+        outExtension: () => ({ js: '.js' }),
         onSuccess: async () => {
             writeFileSync(
                 'dist/browser.js',
-                `${readFileSync('dist/index.global.js', 'utf8').trim()}${readFileSync('src/global.js', 'utf8').trim()}\n`,
+                `${readFileSync('dist/browser.js', 'utf8').trim()}const TContext=_.TContext;_=undefined;\n`,
             );
-            rmSync('dist/index.global.js');
         },
     },
 ]);
