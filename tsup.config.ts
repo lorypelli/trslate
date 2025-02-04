@@ -13,7 +13,7 @@ export default defineConfig([
         onSuccess: async () => {
             writeFileSync(
                 'dist/browser.js',
-                `${readFileSync('dist/index.global.js', 'utf8')}\n${readFileSync('src/global.js', 'utf8')}`,
+                `${readFileSync('dist/index.global.js', 'utf8').trim()}${readFileSync('src/global.js', 'utf8').trim()}\n`,
             );
             rmSync('dist/index.global.js');
         },
