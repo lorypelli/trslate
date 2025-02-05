@@ -5,7 +5,7 @@ const defaults = defineConfig({
     target: 'es2015',
     minify: true,
     clean: true,
-})
+});
 
 export default defineConfig([
     {
@@ -18,12 +18,14 @@ export default defineConfig([
         ...defaults,
         entry: { browser: 'src/index.ts' },
         format: 'iife',
-        globalName: '_',
+        globalName: '__iife__',
         outExtension: () => ({ js: '.js' }),
         onSuccess: async () => {
+            const text =
+                'const TContext=__iife__.TContext;__iife__=undefined;\n';
             writeFileSync(
                 'dist/browser.js',
-                `${readFileSync('dist/browser.js', 'utf8').trim()}const TContext=_.TContext;_=undefined;\n`,
+                readFileSync('dist/browser.js', 'utf8').trim() + text,
             );
         },
     },
