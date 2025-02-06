@@ -1,0 +1,14 @@
+#!/bin/bash
+
+export NODE_OPTIONS="--no-warnings"
+
+VERSION=$(node -p "require('./package.json').version")
+
+if command -v bunx &>/dev/null; then
+    bunx lint-staged
+elif command -v pnpx &>/dev/null; then
+    pnpx lint-staged
+elif command -v npx &>/dev/null; then
+    npx lint-staged
+fi
+git tag v$VERSION && git push origin v$VERSION || true
