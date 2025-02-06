@@ -9,7 +9,7 @@
         "build": "tsup",
         "format": "prettier --write .",
         "prepublishOnly": "pnpm tag && pnpm build && pnpm format",
-        "tag": "VERSION=$(node -p \"require('./package.json').version\") && git tag v$VERSION && git push origin v$VERSION",
+        "tag": "node src/tag.cjs",
         "test": "node tests/index.js"
     },
     "files": [
