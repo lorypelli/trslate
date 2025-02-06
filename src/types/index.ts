@@ -8,4 +8,4 @@ type SKey<T> = {
 
 export type Union<T> = T extends object ? SKey<T> : never;
 
-export type Valid = string | number | boolean | null;
+export type Valid = string | number | boolean;

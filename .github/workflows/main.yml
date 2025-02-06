@@ -1,0 +1,38 @@
+name: Publish Release
+
+on:
+  push:
+    branches:
+        - main
+    paths:
+        - "../../package.json"
+
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+              with:
+                  ref: main
+                  fetch-depth: 0
+            - name: Setup PNPM
+              uses: pnpm/action-setup@v4
+              with:
+                  version: latest
+            - name: Installing packages
+              run: pnpm i
+            - name: Build
+              run: pnpm build
+            - name: Get version from package.json
+              run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+            - name: Create TAG
+              run: git tag $VERSION && git push origin $VERSION
+            - name: Create Release
+              uses: softprops/action-gh-release@v2
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  name: v${{ env.VERSION }}
+                  tag_name: v${{ env.VERSION }}
+                  files: dist/browser.js

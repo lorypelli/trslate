@@ -1,4 +1,4 @@
-export function check(schema: string[], ...others: object[]) {
+export function check(schema: string[], others: object[]) {
     if (!Array.isArray(schema)) {
         throw new Error('Schema is not an array!');
     }

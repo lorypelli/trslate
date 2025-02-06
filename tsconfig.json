@@ -1,11 +1,6 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
-        "target": "ES2016",
-        "outDir": "dist",
-        "declaration": true,
-        "strict": true,
-        "esModuleInterop": true
+        "strict": true
     },
     "include": ["src", "types", "utils"],
     "exclude": ["node_modules"]
