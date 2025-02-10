@@ -21,11 +21,12 @@ export default defineConfig([
         globalName: '__iife__',
         outExtension: () => ({ js: '.js' }),
         onSuccess: async () => {
-            const text =
-                'const TContext=__iife__.TContext;__iife__=undefined;\n';
             writeFileSync(
                 'dist/browser.js',
-                readFileSync('dist/browser.js', 'utf8').trim() + text,
+                readFileSync('dist/browser.js', 'utf8').replace(
+                    'var __iife__',
+                    'const{TContext}',
+                ),
             );
         },
     },
