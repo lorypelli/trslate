@@ -23,7 +23,7 @@ export class TContext<const T extends string[], const K extends object[]> {
      * @param a Variables that replace `{{}}` sintax
      * @returns The translated string
      */
-    t(l: T[number], s: Union<K[number]>, ...a: Valid[]): string {
+    t(l: T[number], s: Union<K[number]>, ...a: Valid[]) {
         if (typeof l != 'string') {
             throw new Error('The language is not a valid string!');
         }
@@ -65,7 +65,17 @@ export class TContext<const T extends string[], const K extends object[]> {
      * @param l The language to translate into
      * @returns A function where you don't need to specify the language
      */
-    useLang(l: T[number]): (s: Union<K[number]>, ...a: Valid[]) => string {
-        return (s, ...a) => this.t(l, s, ...a);
+    useLang(l: T[number]) {
+        let lang = l;
+        const fn = (s: Union<K[number]>, ...a: Valid[]) =>
+            this.t(lang, s, ...a);
+        /**
+         * The `setLang` function allows you to change the language without creating another function
+         * @param l The new language
+         */
+        fn.setLang = (l: T[number]) => {
+            lang = l;
+        };
+        return fn;
     }
 }
