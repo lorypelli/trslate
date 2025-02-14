@@ -73,9 +73,7 @@ export class TContext<const T extends string[], const K extends object[]> {
          * The `setLang` function allows you to change the language without creating another function
          * @param l The new language
          */
-        fn.setLang = (l: T[number]) => {
-            lang = l;
-        };
+        fn.setLang = (l: T[number]) => (lang = l);
         return fn;
     }
 }
