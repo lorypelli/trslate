@@ -4,8 +4,8 @@ import { getVariables } from './utils/getVariables';
 import { isValidKey } from './utils/isValidKey';
 
 export class TContext<const T extends string[], const K extends object[]> {
-    private schema: T;
-    private others: K & { length: T['length'] };
+    #schema: T;
+    #others: K & { length: T['length'] };
     /**
      * The `TContext` class exports three functions, the first one is used to translate, the second one is used to check if a language is valid and the third one is a shortcut to not specify the language every time in the first one
      * @param schema Array of languages names
@@ -13,8 +13,8 @@ export class TContext<const T extends string[], const K extends object[]> {
      */
     constructor(schema: T, ...others: K & { length: T['length'] }) {
         check(schema, others);
-        this.schema = schema;
-        this.others = others;
+        this.#schema = schema;
+        this.#others = others;
     }
     /**
      * The `t` function is used to make the actual translation
@@ -27,21 +27,21 @@ export class TContext<const T extends string[], const K extends object[]> {
         if (typeof l != 'string') {
             throw new Error('The language is not a valid string!');
         }
-        if (!this.schema.includes(l)) {
+        if (!this.#schema.includes(l)) {
             throw new Error('No translation found for the given language!');
         }
         if (typeof s != 'string') {
             throw new Error('The key is not a valid string!');
         }
-        for (let i = 0; i < this.schema.length; i++) {
-            if (l == this.schema[i]) {
+        for (let i = 0; i < this.#schema.length; i++) {
+            if (l == this.#schema[i]) {
                 const arr = s.split('.');
                 const v = arr.reduce<string | object>((o, k) => {
                     if (typeof o == 'object' && isValidKey(k, o)) {
                         return o[k];
                     }
                     return {};
-                }, this.others[i]);
+                }, this.#others[i]);
                 if (typeof v == 'string') {
                     return getVariables(v, ...a);
                 }
@@ -58,7 +58,7 @@ export class TContext<const T extends string[], const K extends object[]> {
         if (typeof l != 'string') {
             throw new Error('The language is not a valid string!');
         }
-        return this.schema.includes(l);
+        return this.#schema.includes(l);
     }
     /**
      * The `useLang` function is a shortcut that returns a function to not specify the language every time
