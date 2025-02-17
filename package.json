@@ -1,6 +1,6 @@
 {
     "name": "trslate",
-    "version": "1.5.7",
+    "version": "1.6.0",
     "description": "Translate function",
     "type": "module",
     "main": "./dist/index.js",

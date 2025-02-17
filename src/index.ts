@@ -1,20 +1,30 @@
-import { Union, Valid } from './types/index';
-import { check } from './utils/check';
-import { getVariables } from './utils/getVariables';
-import { isValidKey } from './utils/isValidKey';
+import type { Options, Union, Valid } from './types/index';
+import check from './utils/check';
+import defaultOptions from './utils/default';
+import getVariables from './utils/getVariables';
+import isValidKey from './utils/isValidKey';
 
 export class TContext<const T extends string[], const K extends object[]> {
     #schema: T;
-    #others: K & { length: T['length'] };
+    #args: K & { length: T['length'] };
+    #options: Options;
     /**
-     * The `TContext` class exports three functions, the first one is used to translate, the second one is used to check if a language is valid and the third one is a shortcut to not specify the language every time in the first one
+     * The `TContext` class exports three main functions, the first one is used to translate, the second one is used to check if a language is valid and the third one is a shortcut to not specify the language every time in the first one. There is also another function which allows you to turn strict mode on and off
      * @param schema Array of languages names
-     * @param others Objects of languages source strings
+     * @param args Objects of languages source strings
      */
-    constructor(schema: T, ...others: K & { length: T['length'] }) {
-        check(schema, others);
+    constructor(schema: T, ...args: K & { length: T['length'] }) {
+        check(schema, args);
         this.#schema = schema;
-        this.#others = others;
+        this.#args = args;
+        this.#options = defaultOptions;
+    }
+    /**
+     * The `setStrict` function allows you to set if using strict mode or not
+     * @param m The value of the strict mode
+     */
+    setStrict(m: boolean) {
+        this.#options.strict = m;
     }
     /**
      * The `t` function is used to make the actual translation
@@ -27,8 +37,8 @@ export class TContext<const T extends string[], const K extends object[]> {
         if (typeof l != 'string') {
             throw new Error('The language is not a valid string!');
         }
-        if (!this.#schema.includes(l)) {
-            throw new Error('No translation found for the given language!');
+        if (this.#options.strict && !this.#schema.includes(l)) {
+            throw new Error('No translations found for the given language!');
         }
         if (typeof s != 'string') {
             throw new Error('The key is not a valid string!');
@@ -41,16 +51,19 @@ export class TContext<const T extends string[], const K extends object[]> {
                         return o[k];
                     }
                     return {};
-                }, this.#others[i]);
+                }, this.#args[i]);
                 if (typeof v == 'string') {
                     return getVariables(v, ...a);
                 }
             }
         }
+        if (this.#options.strict) {
+            throw new Error('No translations found for the given key!');
+        }
         return '';
     }
     /**
-     *
+     * The `isValidLang` function indicate if a language is valid or not
      * @param l The language to check if it is valid
      * @returns boolean to indicate if it is valid or not
      */

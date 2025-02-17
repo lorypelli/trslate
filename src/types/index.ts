@@ -6,6 +6,10 @@ type SKey<T> = {
           : never;
 }[keyof T & string];
 
+export interface Options {
+    strict: boolean;
+}
+
 export type Union<T> = T extends object ? SKey<T> : never;
 
 export type Valid = string | number | boolean;
