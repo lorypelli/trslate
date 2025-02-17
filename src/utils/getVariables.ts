@@ -1,4 +1,4 @@
-import { Valid } from '../types/index';
+import type { Valid } from '../types/index';
 
 export default function getVariables(v: string, ...a: Valid[]) {
     if (a.length > 0 && v.includes('{{') && v.includes('}}')) {
