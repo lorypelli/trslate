@@ -9,7 +9,7 @@ export class TContext<const T extends string[], const K extends object[]> {
     #args: K & { length: T['length'] };
     #options: Options;
     /**
-     * The `TContext` class exports three main functions, the first one is used to translate, the second one is used to check if a language is valid and the third one is a shortcut to not specify the language every time in the first one. There is also another function which allows you to turn strict mode on and off
+     * The `TContext` class exports three main functions, the first one is used to translate, the second one is used to check if a language is valid and the third one is a shortcut to not specify the language every time in the first one. There is also another function which allows you to toggle strict mode
      * @param schema Array of languages names
      * @param args Objects of languages source strings
      */
@@ -20,7 +20,7 @@ export class TContext<const T extends string[], const K extends object[]> {
         this.#options = defaultOptions;
     }
     /**
-     * The `setStrict` function allows you to set if using strict mode or not
+     * The `setStrict` function allows you to toggle strict mode
      * @param m The value of the strict mode
      */
     setStrict(m: boolean) {

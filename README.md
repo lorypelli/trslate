@@ -1,7 +1,7 @@
 # trslate
 
-This package exports a `TContext` class.<br>
-The `TContext` class exports three functions, the first one is used to translate, the second one is used to check if a language is valid and the third one is a shortcut to not specify the lang in the first one.
+This package exports a `TContext` class<br>
+The `TContext` class exports three main functions, the first one is used to translate, the second one is used to check if a language is valid and the third one is a shortcut to not specify the language every time in the first one. There is also another function which allows you to toggle strict mode
 
 ## Example
 
@@ -11,7 +11,25 @@ const schema = [];
 const translate = new TContext(schema, ...);
 ```
 
-this is a code to demostrate how it works, the class accept a minimum of one param, every other param you pass is the corresponding translation object for every language in the `schema`. Obviously if you pass a new param, you will need to add a new `string` element in the array.
+this is a code to demostrate how it works, the class accept a minimum of one param, every other param you pass is the corresponding translation object for every language in the `schema`. Obviously if you pass a new param, you will need to add a new `string` element in the array
+
+---
+
+`setStrict` function:<br>
+This function allows you to toggle strict mode
+
+## Example
+
+```js
+let m = true;
+const lang = 'invalid';
+const key = 'invalid';
+translate.setStrict(m);
+translate.t(lang, key); // gives error
+m = false;
+translate.setStrict(m);
+translate.t(lang, key); // doesn't give error
+```
 
 ---
 
@@ -26,7 +44,7 @@ const key = '';
 console.log(translate.t(lang, key));
 ```
 
-this function accept two paramethers, the first one is the language you want to translate into and the second one is the object key from which to take the string that will be translated.
+this function accept two paramethers, the first one is the language you want to translate into and the second one is the object key from which to take the string that will be translated
 
 ---
 
@@ -42,7 +60,7 @@ if (translate.isValidLang(lang)) {
 }
 ```
 
-this function accept one paramether, the language and it checks if the translation in that language was provided, it returns a boolean.
+this function accept one paramether, the language and it checks if the translation in that language was provided, it returns a boolean
 
 ---
 
@@ -58,4 +76,17 @@ const key = '';
 console.log(t(key));
 ```
 
-this function accept one paramether, the language you want to translate into, and it returns a function that allows you to not specify the language everytime but only the key.
+this function accept one paramether, the language you want to translate into, and it returns a function that allows you to not specify the language everytime but only the key
+
+---
+
+it has also a `setLang` function attached which allows you to change the language without creating another function
+
+## Example
+
+```js
+let lang = '';
+const t = translate.useLang(lang);
+lang = 'en';
+console.log(t.setLang(lang));
+```
