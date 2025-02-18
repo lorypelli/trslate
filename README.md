@@ -88,5 +88,7 @@ it has also a `setLang` function attached which allows you to change the languag
 let lang = '';
 const t = translate.useLang(lang);
 lang = 'en';
-console.log(t.setLang(lang));
+t.setLang(lang);
+const key = '';
+console.log(t(key));
 ```
