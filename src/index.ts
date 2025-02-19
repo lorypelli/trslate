@@ -24,6 +24,9 @@ export class TContext<const T extends string[], const K extends object[]> {
      * @param m The value of the strict mode
      */
     setStrict(m: boolean) {
+        if (typeof m != 'boolean') {
+            throw new Error('Mode is not a valid boolean!');
+        }
         this.#options.strict = m;
     }
     /**
